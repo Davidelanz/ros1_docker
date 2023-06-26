@@ -22,6 +22,21 @@ To wipe the docker environment:
 docker compose down -v
 ```
 
+> To to freshly build the docker image change from:
+> ```yml
+> image: ghcr.io/davidelanz/ros1_${ROS_DISTRO}_docker
+> ```
+> to:
+> ```yml
+> build:
+>     dockerfile: ./Dockerfile
+> ```
+> and use:
+> ```sh
+> docker compose up --build
+> ```
+
+
 ## Use the catkin workspace
 
 The catkin workspace `catkin_ws` is in the `catkin_ws` docker compose container at `/root/catkin_ws/`.
@@ -32,15 +47,13 @@ The catkin workspace `catkin_ws` is in the `catkin_ws` docker compose container 
 </p>
 
 
-To work with that:
+To work with the container, connect to it with `docker exec -it <container_name> bash` and then use catkin as usual:
 ```sh
-# Connect to the container
-docker exec -it ros_docker-catkin_ws-1 bash
-# Manually source the entrypoint
-source /ros_entrypoint.sh
 # Build workspace
-cd /home/catkin_ws
-catkin_make
+catkin build
 ```
 
+> To spawn multiple processes, execute multiple commands via docker.
+
 To manage packages in the catkin workspace, check out [catkin/Tutorials/CreatingPackage](http://wiki.ros.org/catkin/Tutorials/CreatingPackage) and [catkin/Tutorials/using_a_workspace](http://wiki.ros.org/catkin/Tutorials/using_a_workspace)
+

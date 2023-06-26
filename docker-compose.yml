@@ -2,20 +2,21 @@ version: '3.8'
 
 services:
 
-  ################## ROS MASTER ###########################
-  # rosmaster URI is http://ros_master:11311
-  ros_master:
-    image: ros:noetic-ros-core
-    command: roscore --master-logger-level='debug'
-    healthcheck:
-      test: bash -c "source ros_entrypoint.sh && rostopic list"
-      interval: 2s
-      retries: 10
-      start_period: 5s
-      # timeout: 10s
+  catkin_ws:
+    # image: ghcr.io/davidelanz/ros1_${ROS_DISTRO}_docker
+    build:
+      dockerfile: ./Dockerfile
+      # args:
+      #   - ROS_DISTRO=noetic
+    environment:
+      DISPLAY: "novnc:0.0"
+    # volumes:
+    #   - /path/to/<package_name>:/root/catkin_ws/src/<package_name>
+    depends_on:
+      novnc:
+        condition: service_started
+    stdin_open: true
     tty: true
-
-  ################## GUI  TOOLS ###########################
 
   novnc:
     image: theasp/novnc:latest
@@ -23,62 +24,5 @@ services:
       DISPLAY_WIDTH: 1920
       DISPLAY_HEIGHT: 1080
       RUN_XTERM: no
-    depends_on:
-      ros_master:
-        condition: service_healthy
     ports:
       - 8080:8080
-
-  rviz:
-    image: osrf/ros:noetic-desktop-full
-    environment:
-      DISPLAY: "novnc:0.0"
-      ROS_MASTER_URI: "http://ros_master:11311"
-    depends_on:
-      ros_master:
-        condition: service_healthy
-      novnc:
-        condition: service_started
-    command: rosrun rviz rviz
-
-  rqt_graph:
-    image: osrf/ros:noetic-desktop-full
-    environment:
-      DISPLAY: "novnc:0.0"
-      ROS_MASTER_URI: "http://ros_master:11311"
-    depends_on:
-      ros_master:
-        condition: service_healthy
-      novnc:
-        condition: service_started
-    command: rosrun rqt_graph rqt_graph
-
-  gazebo:
-    image: osrf/ros:noetic-desktop-full
-    environment:
-      DISPLAY: "novnc:0.0"
-    depends_on:
-      ros_master:
-        condition: service_healthy
-      novnc:
-        condition: service_started
-    volumes:
-      - ./.configs/gazebo_fuel_config.yaml:/root/.ignition/fuel/config.yaml
-    command: gazebo
-
-  ################## ROS NODES ###########################
-
-  catkin_ws:
-    image: osrf/ros:noetic-desktop-full
-    environment:
-      - "ROS_MASTER_URI=http://ros_master:11311"
-    volumes:
-      - ./catkin_ws:/root/catkin_ws/
-    working_dir: /root/catkin_ws/
-    depends_on:
-      ros_master:
-        condition: service_healthy
-      novnc:
-        condition: service_started
-    stdin_open: true
-    tty: true
