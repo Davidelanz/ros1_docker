@@ -3,11 +3,11 @@ version: '3.8'
 services:
 
   catkin_ws:
-    # image: ghcr.io/davidelanz/ros1_${ROS_DISTRO}_docker
-    build:
-      dockerfile: ./Dockerfile
-      # args:
-      #   - ROS_DISTRO=noetic
+    image: ghcr.io/davidelanz/ros1_${ROS_DISTRO}_docker
+    # build:
+    #   dockerfile: ./Dockerfile
+    #   args:
+    #     - ROS_DISTRO=noetic
     environment:
       DISPLAY: "novnc:0.0"
     # volumes:

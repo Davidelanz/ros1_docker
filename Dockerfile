@@ -1,4 +1,4 @@
-ARG ROS_DISTRO=noetic
+ARG ROS_DISTRO
 FROM osrf/ros:${ROS_DISTRO}-desktop-full
 
 LABEL org.opencontainers.image.description="Docker enabled ROS ${ROS_DISTRO} workspace"
