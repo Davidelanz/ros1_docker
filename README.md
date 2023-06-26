@@ -53,7 +53,14 @@ To work with the container, connect to it with `docker exec -it <container_name>
 catkin build
 ```
 
-> To spawn multiple processes, execute multiple commands via docker.
+To spawn multiple processes, execute multiple commands via docker.
+
+
+To add a new package, add the respective volume in the `docker-compose.yml` file:
+```yml
+volumes:
+    - /path/to/<package_name>:/root/catkin_ws/src/<package_name>
+```
 
 To manage packages in the catkin workspace, check out [catkin/Tutorials/CreatingPackage](http://wiki.ros.org/catkin/Tutorials/CreatingPackage) and [catkin/Tutorials/using_a_workspace](http://wiki.ros.org/catkin/Tutorials/using_a_workspace)
 
