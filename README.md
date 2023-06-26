@@ -1,8 +1,8 @@
-# Dockerized setup for ROS 1 and Gazebo
+# Dockerized setup for ROS 1
 
 This dockerized environment provides:
 - [ROS 1](https://www.ros.org/) with [Catkin](https://wiki.ros.org/catkin/)-ready workspace
-- [Gazebo](https://gazebosim.org/), [RViZ](http://wiki.ros.org/rviz) and rqt_graph GUI available via [noVNC](https://novnc.com/)
+- GUI available via [noVNC](https://novnc.com/)
 
 <img width=600 align=center alt="noVNC preview" src=".readme_assets/preview_noVNC.jpg">
 
