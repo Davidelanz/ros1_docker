@@ -22,6 +22,8 @@ To wipe the docker environment:
 docker compose down -v
 ```
 
+> To change the ROS distribution, change the `ROS_DISTRO` value in [`.env`](./.env)
+
 > To to freshly build the docker image change from:
 > ```yml
 > image: ghcr.io/davidelanz/ros1_${ROS_DISTRO}_docker
